@@ -1,11 +1,11 @@
 (function () {
-  const slides = Array.from(document.querySelectorAll('.slide'));
+  const track = document.getElementById('carouselTrack');
+  const slides = Array.from(track.children);
   const dotsWrap = document.getElementById('carouselDots');
   const prevBtn = document.querySelector('.car-btn--prev');
   const nextBtn = document.querySelector('.car-btn--next');
-  let index = 0;
+  let current = 0;
 
-  // build dots
   slides.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.setAttribute('aria-label', 'Go to fit ' + (i + 1));
@@ -15,31 +15,25 @@
   });
   const dots = Array.from(dotsWrap.children);
 
-  function render() {
-    slides.forEach((slide, i) => {
-      slide.style.setProperty('--offset', i - index);
-    });
-    dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
-  }
-
   function goTo(i) {
-    index = (i + slides.length) % slides.length;
-    render();
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides[current].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    dots.forEach((d, idx) => d.classList.toggle('is-active', idx === current));
   }
 
-  prevBtn.addEventListener('click', () => goTo(index - 1));
-  nextBtn.addEventListener('click', () => goTo(index + 1));
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
 
-  // basic touch swipe
-  let startX = null;
-  const track = document.getElementById('carouselTrack');
-  track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener('touchend', (e) => {
-    if (startX === null) return;
-    const dx = e.changedTouches[0].clientX - startX;
-    if (Math.abs(dx) > 40) goTo(index + (dx < 0 ? 1 : -1));
-    startX = null;
-  }, { passive: true });
-
-  render();
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const idx = slides.indexOf(entry.target);
+        if (idx !== -1) {
+          current = idx;
+          dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+        }
+      }
+    });
+  }, { root: track, threshold: 0.6 });
+  slides.forEach((s) => observer.observe(s));
 })();
