@@ -312,6 +312,11 @@ em{ font-family: var(--script); font-style: normal; color: var(--red); font-weig
   aspect-ratio: 4 / 5;
   width: 100%;
   background: var(--paper-dim);
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* old Edge/IE */
+}
+.carousel__track::-webkit-scrollbar{
+  display: none;                /* Chrome, Safari, newer Edge */
 }
 .squiggle-frame{
   position: absolute;
