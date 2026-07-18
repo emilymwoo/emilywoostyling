@@ -280,6 +280,100 @@ em{ font-family: var(--script); font-style: normal; color: var(--red); font-weig
 }
 
 /* ---------------------------------------------
+   Fit Check / carousel
+--------------------------------------------- */
+.special{
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 68px 24px 56px;
+  text-align: center;
+}
+.special__title{ text-align: left; }
+.special__sub{ color: var(--ink-soft); max-width: 54ch; margin: 0 auto 36px; font-size: 16px; text-align: center; }
+
+.carousel{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.carousel__frame{
+  position: relative;
+  flex: 1;
+  min-width: 0; 
+  padding: clamp(32px, 8vw, 96px);
+  background: var(--paper);
+}
+.carousel__track{
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  background: var(--paper-dim);
+}
+.squiggle-frame{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+.slide{
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  position: relative;
+  margin: 0;
+}
+.slide img{ width: 100%; height: 100%; object-fit: cover; flex: 1; }
+.slide figcaption{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  padding: 12px 14px;
+  background: var(--paper);
+  color: var(--ink);
+  text-align: left;
+}
+.slide__num{ color: var(--red); margin-right: 8px; font-weight: 700; }
+
+.car-btn{
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+   color: var(--ink);
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  font-family: var(--body);
+  transition: background .15s ease, color .15s ease;
+}
+.car-btn:hover{ background: var(--ink); color: var(--paper); }
+
+.carousel__dots{
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0 0;
+}
+.carousel__dots button{
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.carousel__dots button.is-active{ background: var(--red); border-color: var(--red); }
+
+/* ---------------------------------------------
    Writing / Substack press module
 --------------------------------------------- */
 .press{
@@ -412,101 +506,6 @@ em{ font-family: var(--script); font-style: normal; color: var(--red); font-weig
   color: var(--ink-soft);
   white-space: nowrap;
 }
-
-/* ---------------------------------------------
-   Fit Check / carousel
---------------------------------------------- */
-.special{
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 68px 24px 56px;
-  text-align: center;
-}
-.special__title{ text-align: left; }
-.special__sub{ color: var(--ink-soft); max-width: 54ch; margin: 0 auto 36px; font-size: 16px; text-align: center; }
-
-.carousel{
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.carousel__frame{
-  position: relative;
-  flex: 1;
-  min-width: 0; 
-  padding: clamp(32px, 8vw, 96px);
-  background: var(--paper);
-}
-.carousel__track{
-  display: flex;
-  overflow: hidden;
-  background: var(--paper-dim);
-  aspect-ratio: 4 / 5;
-  width: 100%;
-}
-.squiggle-frame{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  pointer-events: none;
-}
-.slide{
-  min-width: 100%;
-  margin: 0;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(calc(var(--offset, 0) * 100%));
-  transition: transform .45s cubic-bezier(.65,0,.35,1);
-}
-.slide img{ width: 100%; height: 100%; object-fit: cover; flex: 1; }
-.slide figcaption{
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  padding: 12px 14px;
-  background: var(--paper);
-  color: var(--ink);
-  text-align: left;
-}
-.slide__num{ color: var(--red); margin-right: 8px; font-weight: 700; }
-
-.car-btn{
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--ink);
-  background: var(--paper);
-   color: var(--ink);
-  -webkit-appearance: none;
-  appearance: none;
-  font-size: 18px;
-  line-height: 1;
-  cursor: pointer;
-  font-family: var(--body);
-  transition: background .15s ease, color .15s ease;
-}
-.car-btn:hover{ background: var(--ink); color: var(--paper); }
-
-.carousel__dots{
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin: 20px 0 0;
-}
-.carousel__dots button{
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  border: 1px solid var(--ink);
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-}
-.carousel__dots button.is-active{ background: var(--red); border-color: var(--red); }
 
 /* ---------------------------------------------
    Receipt / contact footer
